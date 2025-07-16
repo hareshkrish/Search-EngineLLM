@@ -12,7 +12,7 @@ api_wrapper_wiki=WikipediaAPIWrapper(top_k_results=1,doc_content_chars_max=250)
 wiki=WikipediaQueryRun(api_wrapper=api_wrapper_wiki)
 api_wrapper_Arxiv=ArxivAPIWrapper(top_k_results=1,doc_content_chars_max=250)
 arxvi=ArxivQueryRun(api_wrapper=api_wrapper_Arxiv)
-groq_api_key=os.getenv("GROQ_API_KEY")
+groq_api_key=st.secrets["GROQ_API_KEY"]
 
 Search=DuckDuckGoSearchRun(name="search")
 
@@ -35,7 +35,7 @@ if prompt:=st.chat_input(placeholder="Share your thought"):
     gorq_model=ChatGroq(model="gemma2-9b-it",groq_api_key=groq_api_key,streaming=True)
     tools=[Search,arxvi,wiki]
     
-    search_agent=initialize_agent(tools,gorq_model,agent=AgentType.z  ZERO_SHOT_REACT_DESCRIPTION,handling_parsing_errors=True)
+    search_agent=initialize_agent(tools,gorq_model,agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,handling_parsing_errors=True)
     
     with st.chat_message("assistant"):
         st_cb=StreamlitCallbackHandler(st.container(),expand_new_thoughts=False)
